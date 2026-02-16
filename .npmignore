@@ -1,0 +1,34 @@
+# Source files (we only want to publish dist)
+src/
+tsconfig*.json
+*.tsbuildinfo
+tsup.config.ts
+.npmrc
+
+# Examples and tests
+examples/
+__tests__/
+*.test.ts
+*.spec.ts
+jest.config.js
+coverage/
+
+# Development files
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Misc
+.env
+.env.local
+node_modules/
