@@ -144,5 +144,8 @@ git tag "${PACKAGE_NAME}@${NEW_VERSION}"
 
 echo -e "${GREEN}Created commit and tag: ${PACKAGE_NAME}@${NEW_VERSION}${NC}"
 echo ""
-echo -e "${YELLOW}Don't forget to push:${NC}"
-echo "  git push && git push --tags"
+
+# Push commit and tag
+echo -e "${BLUE}Pushing to remote...${NC}"
+git push && git push --tags
+echo -e "${GREEN}Pushed commit and tag to remote.${NC}"
