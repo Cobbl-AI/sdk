@@ -338,7 +338,7 @@ describe('SDK Integration Tests', () => {
       await adminClient.runPrompt('test', {})
 
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://staging.cobbl.ai/admin/v1/prompt/run',
+        'https://api.cobbl.ai/admin/v1/prompt/run',
         expect.any(Object)
       )
     })
