@@ -44,8 +44,12 @@
   },
   "typesVersions": {
     "*": {
-      "admin": ["./dist/admin.d.ts"],
-      "public": ["./dist/public.d.ts"]
+      "admin": [
+        "./dist/admin.d.ts"
+      ],
+      "public": [
+        "./dist/public.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -55,7 +59,8 @@
     "test": "pnpm jest",
     "test:watch": "pnpm jest --watch",
     "test:coverage": "pnpm jest --coverage",
-    "prepublishOnly": "pnpm clean && pnpm build"
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "release": "bash scripts/release.sh"
   },
   "keywords": [
     "prompt",
