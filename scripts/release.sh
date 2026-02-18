@@ -14,25 +14,23 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 usage() {
-  echo "Usage: $0 <patch|minor|major|premajor|preminor|prepatch|prerelease> [--tag <tag>] [--dry-run]"
+  echo "Usage: $0 [bump_type] [--tag <tag>] [--dry-run]"
+  echo ""
+  echo "If no bump_type is given, publishes the current version as-is."
   echo ""
   echo "Examples:"
+  echo "  $0                          # Publish current version"
   echo "  $0 patch                    # 0.1.0 -> 0.1.1"
   echo "  $0 minor                    # 0.1.0 -> 0.2.0"
   echo "  $0 major                    # 0.1.0 -> 1.0.0"
   echo "  $0 prepatch --tag beta      # 0.1.0 -> 0.1.1-beta.0"
   echo "  $0 prerelease --tag beta    # 0.1.1-beta.0 -> 0.1.1-beta.1"
   echo "  $0 patch --dry-run          # Preview without publishing"
+  echo "  $0 --dry-run                # Preview current version without publishing"
   exit 1
 }
 
-if [ $# -lt 1 ]; then
-  usage
-fi
-
-BUMP_TYPE="$1"
-shift
-
+BUMP_TYPE=""
 TAG=""
 DRY_RUN=false
 
@@ -46,16 +44,29 @@ while [ $# -gt 0 ]; do
       DRY_RUN=true
       shift
       ;;
-    *)
+    --help|-h)
       usage
+      ;;
+    -*)
+      usage
+      ;;
+    *)
+      if [ -z "$BUMP_TYPE" ]; then
+        BUMP_TYPE="$1"
+      else
+        usage
+      fi
+      shift
       ;;
   esac
 done
 
-case "$BUMP_TYPE" in
-  patch|minor|major|premajor|preminor|prepatch|prerelease) ;;
-  *) usage ;;
-esac
+if [ -n "$BUMP_TYPE" ]; then
+  case "$BUMP_TYPE" in
+    patch|minor|major|premajor|preminor|prepatch|prerelease) ;;
+    *) usage ;;
+  esac
+fi
 
 CURRENT_VERSION=$(node -p "require('./package.json').version")
 
@@ -76,17 +87,19 @@ if ! npm whoami &>/dev/null; then
   exit 1
 fi
 
-# Bump version
-if [ -n "$TAG" ]; then
-  NEW_VERSION=$(npm version "$BUMP_TYPE" --preid "$TAG" --no-git-tag-version)
+# Bump version (if requested)
+if [ -n "$BUMP_TYPE" ]; then
+  if [ -n "$TAG" ]; then
+    NEW_VERSION=$(npm version "$BUMP_TYPE" --preid "$TAG" --no-git-tag-version)
+  else
+    NEW_VERSION=$(npm version "$BUMP_TYPE" --no-git-tag-version)
+  fi
+  NEW_VERSION="${NEW_VERSION#v}"
+  echo -e "New version:     ${GREEN}${NEW_VERSION}${NC}"
 else
-  NEW_VERSION=$(npm version "$BUMP_TYPE" --no-git-tag-version)
+  NEW_VERSION="$CURRENT_VERSION"
+  echo -e "Publishing:      ${GREEN}${NEW_VERSION}${NC} (no version bump)"
 fi
-
-# npm version prefixes with 'v'
-NEW_VERSION="${NEW_VERSION#v}"
-
-echo -e "New version:     ${GREEN}${NEW_VERSION}${NC}"
 echo ""
 
 # Run tests
@@ -109,12 +122,16 @@ echo ""
 
 # Show what will be published
 echo -e "${BLUE}Package contents:${NC}"
-pnpm pack --dry-run 2>&1 | head -30
+npm pack --dry-run 2>&1 | head -30
 echo ""
 
 if [ "$DRY_RUN" = true ]; then
-  echo -e "${YELLOW}Dry run complete. Reverting version bump.${NC}"
-  git checkout package.json
+  if [ -n "$BUMP_TYPE" ]; then
+    echo -e "${YELLOW}Dry run complete. Reverting version bump.${NC}"
+    git checkout package.json
+  else
+    echo -e "${YELLOW}Dry run complete.${NC}"
+  fi
   exit 0
 fi
 
@@ -122,8 +139,12 @@ fi
 echo -e "${YELLOW}About to publish ${PACKAGE_NAME}@${NEW_VERSION} to npm.${NC}"
 read -r -p "Continue? (y/N) " confirm
 if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-  echo "Aborting. Reverting version bump."
-  git checkout package.json
+  if [ -n "$BUMP_TYPE" ]; then
+    echo "Aborting. Reverting version bump."
+    git checkout package.json
+  else
+    echo "Aborting."
+  fi
   exit 1
 fi
 
@@ -137,15 +158,18 @@ fi
 echo ""
 echo -e "${GREEN}Published ${PACKAGE_NAME}@${NEW_VERSION}${NC}"
 
-# Git commit and tag
-git add package.json
-git commit -m "release: ${PACKAGE_NAME}@${NEW_VERSION}"
+# Git commit and tag (only if version was bumped)
+if [ -n "$BUMP_TYPE" ]; then
+  git add package.json
+  git commit -m "release: ${PACKAGE_NAME}@${NEW_VERSION}"
+fi
+
 git tag "${PACKAGE_NAME}@${NEW_VERSION}"
 
-echo -e "${GREEN}Created commit and tag: ${PACKAGE_NAME}@${NEW_VERSION}${NC}"
+echo -e "${GREEN}Created tag: ${PACKAGE_NAME}@${NEW_VERSION}${NC}"
 echo ""
 
 # Push commit and tag
 echo -e "${BLUE}Pushing to remote...${NC}"
 git push && git push --tags
-echo -e "${GREEN}Pushed commit and tag to remote.${NC}"
+echo -e "${GREEN}Pushed to remote.${NC}"
