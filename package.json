@@ -77,12 +77,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Cobbl-AI/sdk.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/Cobbl-AI/sdk/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/Cobbl-AI/sdk#readme",
   "engines": {
     "node": ">=18.0.0"
   },

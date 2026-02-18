@@ -609,9 +609,8 @@ pnpm publish --tag beta --access public
 ## Support
 
 - 📧 Email: support@cobbl.ai
-- 🐛 Issues: [GitHub Issues](https://github.com/your-org/cobbl-ai/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/cobbl-ai/sdk/issues)
 - 📚 Documentation: [docs.cobbl.ai](https://docs.cobbl.ai)
-- 💬 Discord: [Join our community](https://discord.gg/cobbl)
 
 ## License
 
