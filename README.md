@@ -28,6 +28,27 @@ yarn add @cobbl-ai/sdk
 pnpm add @cobbl-ai/sdk
 ```
 
+### CDN / Script Tag
+
+For use without a bundler, load the SDK via a `<script>` tag. This exposes `CobblPublicClient` on `window.Cobbl`:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@cobbl-ai/sdk"></script>
+
+<script>
+  const client = new Cobbl.CobblPublicClient()
+
+  client.createFeedback({
+    runId: 'your-run-id',
+    helpful: 'helpful',
+  }).then(({ id }) => {
+    console.log('Feedback created:', id)
+  })
+</script>
+```
+
+> **Note:** Only `CobblPublicClient` is available via the CDN bundle. The `CobblAdminClient` requires an API key and should only be used server-side.
+
 ## Quick Start
 
 ```typescript
@@ -560,6 +581,7 @@ sdk/
 ├── src/
 │   ├── admin.ts        # Admin API client
 │   ├── public.ts       # Public API client
+│   ├── browser.ts      # Browser entry point (CDN/script tag)
 │   ├── errors.ts       # Error classes
 │   ├── types.ts        # Type definitions
 │   └── index.ts        # Public exports
@@ -570,6 +592,7 @@ sdk/
 │   ├── admin.mjs       # ES modules bundle (admin)
 │   ├── public.js       # CommonJS bundle (public)
 │   ├── public.mjs      # ES modules bundle (public)
+│   ├── cobbl-sdk.global.js  # IIFE bundle for CDN/script tag
 │   └── *.d.ts          # TypeScript declarations
 ├── tsup.config.ts      # Build configuration
 ├── package.json

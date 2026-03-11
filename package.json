@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "unpkg": "dist/cobbl-sdk.global.js",
+  "jsdelivr": "dist/cobbl-sdk.global.js",
   "files": [
     "dist/**/*",
     "src/**/*",

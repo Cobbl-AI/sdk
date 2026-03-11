@@ -4,7 +4,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2018"],
+    "lib": ["es2018", "dom"],
     "moduleResolution": "node",
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
