@@ -1,6 +1,6 @@
 # @cobbl-ai/sdk
 
-The official TypeScript/JavaScript SDK for [Cobbl](https://cobbl.ai) - a feedback-driven PromptOps platform for LLM applications.
+The official TypeScript/JavaScript SDK for [Cobbl](https://cobbl.ai) - a feedback-driven prompt management platform for LLM applications.
 
 [![npm version](https://img.shields.io/npm/v/@cobble-ai/sdk)](https://www.npmjs.com/package/@cobbl-ai/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
