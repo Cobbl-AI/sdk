@@ -93,7 +93,7 @@ export class CobblAdminClient {
    */
   async runPrompt(
     promptSlug: string,
-    input: PromptInput
+    input: PromptInput,
   ): Promise<RunPromptResponse> {
     if (!promptSlug || promptSlug.trim().length === 0) {
       throw new CobblError('promptSlug is required', 'INVALID_REQUEST')
@@ -133,7 +133,7 @@ export class CobblAdminClient {
       }
       throw new CobblError(
         `Failed to run prompt: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        'NETWORK_ERROR'
+        'NETWORK_ERROR',
       )
     }
   }
@@ -144,7 +144,7 @@ export class CobblAdminClient {
    */
   private async makeRequest(
     path: string,
-    options: RequestInit
+    options: RequestInit,
   ): Promise<Response> {
     const url = `${this.baseUrl}${path}`
 

@@ -7,7 +7,7 @@ import type {
 const VALID_HELPFUL_VALUES: Helpful[] = ['helpful', 'not_helpful']
 
 export function validateCreateFeedback(
-  feedback: CreateFeedbackRequest
+  feedback: CreateFeedbackRequest,
 ): string | null {
   if (!feedback.runId || feedback.runId.trim().length === 0) {
     return 'runId is required'
@@ -31,7 +31,7 @@ export function validateCreateFeedback(
 }
 
 export function validateUpdateFeedback(
-  update: UpdateFeedbackRequest
+  update: UpdateFeedbackRequest,
 ): string | null {
   if (
     update.helpful !== undefined &&

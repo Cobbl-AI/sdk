@@ -38,12 +38,14 @@ For use without a bundler, load the SDK via a `<script>` tag. This exposes `Cobb
 <script>
   const client = new Cobbl.CobblPublicClient()
 
-  client.createFeedback({
-    runId: 'your-run-id',
-    helpful: 'helpful',
-  }).then(({ id }) => {
-    console.log('Feedback created:', id)
-  })
+  client
+    .createFeedback({
+      runId: 'your-run-id',
+      helpful: 'helpful',
+    })
+    .then(({ id }) => {
+      console.log('Feedback created:', id)
+    })
 </script>
 ```
 
@@ -357,7 +359,7 @@ const input: PromptInput = {
 // Type-safe response handling
 const result: RunPromptResponse = await adminClient.runPrompt(
   'blog_post',
-  input
+  input,
 )
 
 // Access token usage
@@ -428,7 +430,7 @@ export async function POST(request: Request) {
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to generate summary' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

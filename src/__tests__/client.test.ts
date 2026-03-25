@@ -25,14 +25,14 @@ describe('CobblAdminClient', () => {
     it('should throw error when API key is missing', () => {
       expect(() => new CobblAdminClient({ apiKey: '' })).toThrow(CobblError)
       expect(() => new CobblAdminClient({ apiKey: '' })).toThrow(
-        'API key is required'
+        'API key is required',
       )
     })
 
     it('should throw error when API key is only whitespace', () => {
       expect(() => new CobblAdminClient({ apiKey: '   ' })).toThrow(CobblError)
       expect(() => new CobblAdminClient({ apiKey: '   ' })).toThrow(
-        'API key is required'
+        'API key is required',
       )
     })
 
@@ -98,7 +98,7 @@ describe('CobblAdminClient', () => {
             promptSlug: 'sales_summary',
             input: { topic: 'Q4 Results', tone: 'friendly' },
           }),
-        })
+        }),
       )
     })
 
@@ -135,14 +135,14 @@ describe('CobblAdminClient', () => {
         expect.any(String),
         expect.objectContaining({
           body: expect.stringContaining('"promptSlug":"sales_summary"'),
-        })
+        }),
       )
     })
 
     it('should throw error when promptSlug is empty', async () => {
       await expect(client.runPrompt('', {})).rejects.toThrow(CobblError)
       await expect(client.runPrompt('', {})).rejects.toThrow(
-        'promptSlug is required'
+        'promptSlug is required',
       )
     })
 
@@ -212,7 +212,7 @@ describe('CobblAdminClient', () => {
         expect(error).toBeInstanceOf(CobblError)
         expect((error as CobblError).code).toBe('FORBIDDEN')
         expect((error as CobblError).message).toBe(
-          'Prompt "test-prompt" is currently disabled'
+          'Prompt "test-prompt" is currently disabled',
         )
       }
     })
@@ -251,7 +251,7 @@ describe('CobblAdminClient', () => {
         expect(error).toBeInstanceOf(CobblError)
         expect((error as CobblError).code).toBe('ARCHIVED')
         expect((error as CobblError).message).toBe(
-          'Prompt "test-prompt" has been archived'
+          'Prompt "test-prompt" has been archived',
         )
       }
     })
@@ -356,7 +356,7 @@ describe('CobblAdminClient', () => {
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.cobbl.ai/admin/v1/prompt/run',
-        expect.any(Object)
+        expect.any(Object),
       )
     })
 
@@ -510,7 +510,7 @@ describe('CobblPublicClient', () => {
             helpful: 'not_helpful',
             userFeedback: 'Too formal',
           }),
-        })
+        }),
       )
     })
 
@@ -533,7 +533,7 @@ describe('CobblPublicClient', () => {
             runId: 'run-123',
             helpful: 'not_helpful',
           }),
-        })
+        }),
       )
     })
 
@@ -556,7 +556,7 @@ describe('CobblPublicClient', () => {
             runId: 'run-123',
             userFeedback: 'Too formal',
           }),
-        })
+        }),
       )
     })
 
@@ -576,13 +576,13 @@ describe('CobblPublicClient', () => {
         expect.any(String),
         expect.objectContaining({
           body: expect.stringContaining('"runId":"run-123"'),
-        })
+        }),
       )
       expect(mockFetch).toHaveBeenCalledWith(
         expect.any(String),
         expect.objectContaining({
           body: expect.stringContaining('"userFeedback":"Great response!"'),
-        })
+        }),
       )
     })
 
@@ -591,13 +591,13 @@ describe('CobblPublicClient', () => {
         client.createFeedback({
           runId: '',
           helpful: 'helpful',
-        })
+        }),
       ).rejects.toThrow(CobblError)
       await expect(
         client.createFeedback({
           runId: '',
           helpful: 'helpful',
-        })
+        }),
       ).rejects.toThrow('runId is required')
     })
 
@@ -605,12 +605,12 @@ describe('CobblPublicClient', () => {
       await expect(
         client.createFeedback({
           runId: 'run-123',
-        })
+        }),
       ).rejects.toThrow(CobblError)
       await expect(
         client.createFeedback({
           runId: 'run-123',
-        })
+        }),
       ).rejects.toThrow('At least one of helpful or userFeedback is required')
     })
 
@@ -619,7 +619,7 @@ describe('CobblPublicClient', () => {
         client.createFeedback({
           runId: 'run-123',
           userFeedback: '',
-        })
+        }),
       ).rejects.toThrow(CobblError)
     })
 
@@ -628,7 +628,7 @@ describe('CobblPublicClient', () => {
         client.createFeedback({
           runId: 'run-123',
           helpful: 'invalid' as any,
-        })
+        }),
       ).rejects.toThrow(CobblError)
     })
 
@@ -648,7 +648,7 @@ describe('CobblPublicClient', () => {
         expect.any(String),
         expect.objectContaining({
           body: expect.stringContaining('"helpful":"helpful"'),
-        })
+        }),
       )
     })
 
@@ -668,7 +668,7 @@ describe('CobblPublicClient', () => {
         expect.any(String),
         expect.objectContaining({
           body: expect.stringContaining('"helpful":"not_helpful"'),
-        })
+        }),
       )
     })
 
@@ -783,7 +783,7 @@ describe('CobblPublicClient', () => {
           body: JSON.stringify({
             userFeedback: 'Additional details',
           }),
-        })
+        }),
       )
     })
 
@@ -804,7 +804,7 @@ describe('CobblPublicClient', () => {
           body: JSON.stringify({
             helpful: 'helpful',
           }),
-        })
+        }),
       )
     })
 
@@ -826,7 +826,7 @@ describe('CobblPublicClient', () => {
             helpful: 'not_helpful',
             userFeedback: 'Updated feedback',
           }),
-        })
+        }),
       )
     })
 
@@ -844,31 +844,31 @@ describe('CobblPublicClient', () => {
         `${mockBaseUrl}/public/v1/feedback/fb-123`,
         expect.objectContaining({
           body: expect.stringContaining('"userFeedback":"Trimmed feedback"'),
-        })
+        }),
       )
     })
 
     it('should throw error when feedbackId is empty', async () => {
       await expect(
-        client.updateFeedback('', { helpful: 'helpful' })
+        client.updateFeedback('', { helpful: 'helpful' }),
       ).rejects.toThrow(CobblError)
       await expect(
-        client.updateFeedback('', { helpful: 'helpful' })
+        client.updateFeedback('', { helpful: 'helpful' }),
       ).rejects.toThrow('id is required')
     })
 
     it('should throw error when neither field is provided', async () => {
       await expect(client.updateFeedback('fb-123', {})).rejects.toThrow(
-        CobblError
+        CobblError,
       )
       await expect(client.updateFeedback('fb-123', {})).rejects.toThrow(
-        'At least one of helpful or userFeedback is required'
+        'At least one of helpful or userFeedback is required',
       )
     })
 
     it('should throw error when helpful is invalid', async () => {
       await expect(
-        client.updateFeedback('fb-123', { helpful: 'invalid' as any })
+        client.updateFeedback('fb-123', { helpful: 'invalid' as any }),
       ).rejects.toThrow(CobblError)
     })
 

@@ -76,7 +76,7 @@ export class CobblError extends Error {
  * @internal
  */
 export const handleErrorResponse = async (
-  response: Response
+  response: Response,
 ): Promise<never> => {
   let errorData: any
   try {
@@ -85,7 +85,7 @@ export const handleErrorResponse = async (
     throw new CobblError(
       `HTTP ${response.status}: ${response.statusText}`,
       'API_ERROR',
-      { status: response.status }
+      { status: response.status },
     )
   }
 

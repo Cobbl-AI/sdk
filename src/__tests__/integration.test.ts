@@ -134,7 +134,7 @@ describe('SDK Integration Tests', () => {
         feedbackResult.id,
         {
           userFeedback: 'The response was too verbose and missed key points.',
-        }
+        },
       )
 
       expect(updateResult.id).toBe('feedback-123')
@@ -152,7 +152,7 @@ describe('SDK Integration Tests', () => {
       })
 
       await expect(
-        adminClient.runPrompt('nonexistent-prompt', {})
+        adminClient.runPrompt('nonexistent-prompt', {}),
       ).rejects.toThrow(CobblError)
 
       // Should not call createFeedback after error
@@ -301,7 +301,7 @@ describe('SDK Integration Tests', () => {
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.cobbl.ai/admin/v1/prompt/run',
-        expect.any(Object)
+        expect.any(Object),
       )
     })
 
@@ -339,7 +339,7 @@ describe('SDK Integration Tests', () => {
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.cobbl.ai/admin/v1/prompt/run',
-        expect.any(Object)
+        expect.any(Object),
       )
     })
   })

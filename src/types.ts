@@ -5,7 +5,6 @@
  * These match the API contract and are used as type hints for SDK consumers.
  */
 
-
 // ─── SDK Config ──────────────────────────────────────────────
 
 /**

@@ -106,7 +106,7 @@ export class CobblPublicClient {
    * ```
    */
   async createFeedback(
-    feedback: CreateFeedbackRequest
+    feedback: CreateFeedbackRequest,
   ): Promise<CreateFeedbackResponse> {
     const validationError = validateCreateFeedback(feedback)
     if (validationError) {
@@ -145,7 +145,7 @@ export class CobblPublicClient {
       }
       throw new CobblError(
         `Failed to create feedback: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        'NETWORK_ERROR'
+        'NETWORK_ERROR',
       )
     }
   }
@@ -178,7 +178,7 @@ export class CobblPublicClient {
    */
   async updateFeedback(
     id: string,
-    update: UpdateFeedbackRequest
+    update: UpdateFeedbackRequest,
   ): Promise<UpdateFeedbackResponse> {
     if (!id || id.trim().length === 0) {
       throw new CobblError('id is required', 'INVALID_REQUEST')
@@ -201,7 +201,7 @@ export class CobblPublicClient {
         {
           method: 'PATCH',
           body: JSON.stringify(body),
-        }
+        },
       )
 
       if (!response.ok) {
@@ -223,7 +223,7 @@ export class CobblPublicClient {
       }
       throw new CobblError(
         `Failed to update feedback: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        'NETWORK_ERROR'
+        'NETWORK_ERROR',
       )
     }
   }
@@ -234,7 +234,7 @@ export class CobblPublicClient {
    */
   private async makeRequest(
     path: string,
-    options: RequestInit
+    options: RequestInit,
   ): Promise<Response> {
     const url = `${this.baseUrl}${path}`
 
