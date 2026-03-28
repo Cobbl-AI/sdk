@@ -148,7 +148,7 @@ interface PromptVersionBase {
   variables: VariableConfig[]
   provider: Provider
   model: string
-  status: 'draft' | 'active' | 'inactive'
+  status: 'draft' | 'published' | 'inactive'
   parentVersionId: string | null
   analytics: PromptAggregatedAnalytics
   publishedAt: Date | null
