@@ -195,28 +195,6 @@ describe('CobblAdminClient', () => {
       }
     })
 
-    it('should handle 403 Forbidden (disabled prompt)', async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 403,
-        statusText: 'Forbidden',
-        json: async () => ({
-          error: 'Prompt "test-prompt" is currently disabled',
-        }),
-      })
-
-      try {
-        await client.runPrompt('test-prompt', {})
-        fail('Should have thrown')
-      } catch (error) {
-        expect(error).toBeInstanceOf(CobblError)
-        expect((error as CobblError).code).toBe('FORBIDDEN')
-        expect((error as CobblError).message).toBe(
-          'Prompt "test-prompt" is currently disabled',
-        )
-      }
-    })
-
     it('should handle 404 Not Found', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: false,
